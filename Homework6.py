@@ -42,7 +42,9 @@ class Admin(User):
         self.users.append(user)
 
     def remove_user(self, user_id):
-        self.users = [user for user in self.users if user.user_id != user_id]
+        if user_id in self.users:
+            self.users.remove(user_id)
+
 
     def list_users(self):
         for user in self.users:
