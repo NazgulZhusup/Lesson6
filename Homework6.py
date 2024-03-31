@@ -1,4 +1,3 @@
-
 class User:
     def __init__(self, user_id, name, access_level='user'):
         self.user_id = user_id
@@ -21,31 +20,29 @@ class Admin(User):
         self.users = []
 
     def add_user(self, user):
-        self.users.append(user)
+        if isinstance(user, User) and user not in self.users:
+            self.users.append(user)
 
     def remove_user(self, user_id):
-        if user_id in self.users:
-            self.users.remove(user_id)
-
+        self.users = [user for user in self.users
+                      if user.user_id != user_id]
 
     def list_users(self):
         for user in self.users:
-            print(f'ID: {user.user_id}, Name: {user.get_name()}, Access Level: {user.get_access_level()}')
+            print(f'ID: {user.user_id}, Name: {user.get_name()}, 'f'Access Level: {user.get_access_level()}')
 
-
+# Пример использования
 admin = Admin('001', 'Admin User')
 user1 = User('002', 'John Doe')
 user2 = User('003', 'Jane Doe')
+
 admin.add_user(user1)
 admin.add_user(user2)
 
+print("Перед удалением:")
 admin.list_users()
+
 admin.remove_user('002')
-print("\nAfter removing John Doe:")
+
+print("\nПосле удаления пользователя с ID '002':")
 admin.list_users()
-
-
-
-
-
-
